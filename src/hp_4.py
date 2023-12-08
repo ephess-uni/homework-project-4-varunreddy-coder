@@ -51,7 +51,7 @@ def fees_report(infile, outfile):
             if date_returned > date_due:
                 days_late = (date_returned - date_due).days
                 late_fee = round(days_late*0.25,2)
-                lf_dict[row['patron_id']] += late_fee
+                lf_dict[row['patron_id']] = late_fee
             else:
                 lf_dict[row['patron_id']] += 0.00
     with open(outfile,'w',newline='') as file:
