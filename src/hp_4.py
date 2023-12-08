@@ -8,27 +8,62 @@ from collections import defaultdict
 def reformat_dates(old_dates):
     """Accepts a list of date strings in format yyyy-mm-dd, re-formats each
     element to a format dd mmm yyyy--01 Jan 2001."""
-    pass
+    dates = []
+    for i in old_dates:
+        new_date = datetime.strptime(i, "%Y-%m-%d").strftime("%d %b %Y")
+        dates.append(new_date)
+    return dates
 
 
 def date_range(start, n):
     """For input date string `start`, with format 'yyyy-mm-dd', returns
     a list of of `n` datetime objects starting at `start` where each
     element in the list is one day after the previous."""
-    pass
+    dates = []
+    start_date = datetime.strptime(start,"%Y-%m-%d")
+    for days in range(n):
+        new_date = start_date + timedelta(days=days):
+        dates.append(new_date)
+    return dates
 
 
 def add_date_range(values, start_date):
     """Adds a daily date range to the list `values` beginning with
     `start_date`.  The date, value pairs are returned as tuples
     in the returned list."""
-    pass
+    dates = []
+    start_date = datetime.strptime(start_date,"%Y-%m-%d")
+    for i,j in enumerate(values):
+        dates.append((start_date + timedelta(days=i),j))
+    return dates
+    
 
 
 def fees_report(infile, outfile):
     """Calculates late fees per patron id and writes a summary report to
     outfile."""
-    pass
+    lf_dict  = defaultdict()
+    with open(infile) as file:
+        reader = DictReader(file)
+        for row in reader:
+            date_due = datetime.strptime(row['dtae_due'],"%m/%d/%Y")
+            date_returned = datetime.strptime(row['date_returned'],"%m/%d/%Y")
+            if date_returned > date_due:
+                days_late = (date_returned - date_due).days
+                late_fee = round(days_late*0.25,2)
+                lf_dict[row['patron_id']] += late_fee
+            else:
+                lf_dict[row['patron_id']] += 0.00
+    with open(outfile,'w',newline='') as file:
+        cols = ['patron_id','late_fees']
+        lf_list = [
+            {'patron_id':key,'late_fees':value} for key, 
+            str(value)+'0' if len(str(value).split('.')[-1]) !=2 else st(value)
+            in lf_dict.items()
+        ]
+        writer= DictWriter(file,cols)
+        writer.writeheader()
+        writer.writerows(lf_list)
 
 
 # The following main selection block will only run when you choose
