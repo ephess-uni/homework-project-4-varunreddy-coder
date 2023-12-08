@@ -57,8 +57,7 @@ def fees_report(infile, outfile):
     with open(outfile,'w',newline='') as file:
         cols = ['patron_id','late_fees']
         lf_list = [
-            {'patron_id':key,'late_fees':value} for key, 
-            str(value)+'0' if len(str(value).split('.')[-1]) !=2 else str(value)
+            {'patron_id':key,'late_fees':str(value)+'0' if len(str(value).split('.')[-1]) !=2 else str(value)} for key, value
             in lf_dict.items()
         ]
         writer= DictWriter(file,cols)
