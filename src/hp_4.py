@@ -46,7 +46,7 @@ def fees_report(infile, outfile):
     with open(infile) as file:
         reader = DictReader(file)
         for row in reader:
-            date_due = datetime.strptime(row['dtae_due'],"%m/%d/%Y")
+            date_due = datetime.strptime(row['date_due'],"%m/%d/%Y")
             date_returned = datetime.strptime(row['date_returned'],"%m/%d/%Y")
             if date_returned > date_due:
                 days_late = (date_returned - date_due).days
