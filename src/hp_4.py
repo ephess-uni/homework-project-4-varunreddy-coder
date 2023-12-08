@@ -53,7 +53,7 @@ def fees_report(infile, outfile):
                 late_fee = round(days_late*0.25,2)
                 lf_dict[row['patron_id']] = late_fee
             else:
-                lf_dict[row['patron_id']] += 0.00
+                lf_dict[row['patron_id']] = 0.00
     with open(outfile,'w',newline='') as file:
         cols = ['patron_id','late_fees']
         lf_list = [
