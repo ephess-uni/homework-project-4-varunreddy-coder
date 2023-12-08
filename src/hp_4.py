@@ -22,7 +22,7 @@ def date_range(start, n):
     dates = []
     start_date = datetime.strptime(start,"%Y-%m-%d")
     for days in range(n):
-        new_date = start_date + timedelta(days=days):
+        new_date = start_date + timedelta(days=days)
         dates.append(new_date)
     return dates
 
